@@ -1,0 +1,30 @@
+# Regras:
+
+    Este é um arquivo txt que guarda as alterações feitas no projeto
+    Formato de inserção:
+
+    Data - Hora - Alterador
+    Arquivos criados(AC) - Motivo de criação do arquivo
+    Funções criadas(FC) - O que fazem, o que recebem e o que retornam
+    Funções alteradas(FA) - O que havia antes // o que há agora
+    Erros encontrados(EE) - O erro que aparece ao tentar executar o programa ou função específica
+    Funções faltando(FF) - O que ainda precisa ser criado
+
+    Obs: Caso algum campo não seja preenchido ao preencher um log, completar a informação com '*'
+    Exemplo:
+
+    30/06 - 12:00 - Cleydson
+    AC - *
+    FC - *
+    FA - Função imprimir em Pilha.py foi excluida
+    EE - *
+    FF - *
+
+    26/06 - 19:00 - Cleydson
+    (AC) Grafo, Vertice, Aresta - Criação do grafo e seus elementos.
+    (FC) MakeRoot, addVertice, addAresta, getVertice, bfs - Cria o vertice '/'; adiciona vertices ao grafo, recebe uma 'url' e um 'ip'; adiciona uma aresta ao grafo,       recebe um vertice de origem e um vertice de destino, adiciona ao vertice de origem a aresta criado como 'vizinho'; busca por um vertice no grafo, recebe o vertice      a ser procurado.
+    (FA)Browser: def importUrls, self.enderecos, __search - adiciona cada linha do arquivo .csv ao grafo em forma de vertice e cria uma aresta entre '/' e o vertice que contem a url // antes adicionava os itens do .csv a um dicionário; agora é um grafo // antes era um dicionário; a linha 'print(f'IP: {self.enderecos.getVertice(busca)}')' se tornou comentário.
+    (EE) - Ao testar o print dos vertices e arestas adicionadas pós-leitura do arquivo .csv aparecem como o espaço que ocupa na memória e não os dados que deveriam carregar.
+    (FF) - Falta alterar as outras funções que existem em Browser para buscar e inserir novas urls no grafo; Criar uma função que adicione urls com '/', quebrando a url e criando um caminho a partir dela.
+    
+    
