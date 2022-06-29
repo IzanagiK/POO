@@ -150,4 +150,4 @@ class Browser:
 teste = Browser()
 print(f'{teste.enderecos.vertices}')
 print()
-print(f'{teste.enderecos.arestas}')
+print(f'{teste.enderecos.getArestas()}')
