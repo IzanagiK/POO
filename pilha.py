@@ -1,5 +1,5 @@
 class node:
-    def __init__(self, dado='', next = None):
+    def __init__(self, dado=str, next = None):
         self.dado = dado
         self.next = next
     
@@ -26,6 +26,23 @@ class Pilha:
         newHome = self.top
         self.top = self.top.next
         return newHome
+    
+    def imprimir(self):
+        cursor = self.top
+        if cursor is None:
+            return
+        while cursor is not None:
+            topo = cursor.dado
+            #print(cursor.dado) foi substituido pela declaração de um objeto cursor delicia
+            cursor = cursor.next
+            return(topo)
+            
+            
+
+
+
+   
+
 
         
         
