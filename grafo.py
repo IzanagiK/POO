@@ -10,7 +10,7 @@ class Grafo:
         return f'self.arestas', f'self.vertices'
         
     def makeRoot(self):
-        raiz = self.addVertice('/','0.0.0.0')
+        raiz = self.addVertice('/')
         return raiz
     
     def addVertice(self, url, ip):
@@ -27,8 +27,16 @@ class Grafo:
     def getVertice(self, pesquisa):
         for vertice in self.__vertices:
             if vertice.url == pesquisa:
-                return vertice
+                return vertice.url
         return None
+
+    #Exemplo de função que imprime as ligações do grafo
+    def getArestas(self):
+        s = ''
+        for a in self.__arestas:
+            s += (a.origem.url + '->' + a.destino.url) + '\n'
+        return s
+
     
     #Trevessia BFS: atravessa todo o grafo até achar o vertice
     def bfs(self, pesquisa):

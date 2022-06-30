@@ -2,7 +2,7 @@ from aresta import Aresta
 
 
 class Vertice:
-    def __init__(self, url, ip):
+    def __init__(self, url):
         self.__url = url
         #self.__ip = ip
         self.__vizinhos = list()

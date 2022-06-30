@@ -1,10 +1,3 @@
-#Última Alteração: 25/06
-#Alterações:
-#1) O atributo self.enderecos foi alterado de dicionario (self.enderecos = dict()),
-#para o objeto Grafo (self.enderecos = Grafo())
-#2) A def importUrls() foi alterado, não mais passa os conteúdos para um dicionario self.enderecos
-#agora cria vertices em Grafo e adiciona as arestas entre o root ('/') e os novos vertices.
-
 import csv
 from Historico import historico
 from pilha import Pilha
@@ -55,55 +48,57 @@ class Browser:
     '''
     Recebe os dados a serem procurados no banco de urls.
     '''    
-    def buscar(self, busca):
-            if busca == '#help':
+    def buscar(self, url):
+            if url == '#help':
                 self.help()
-            elif busca == '#voltar':
+            elif url == '#voltar':
                 self.back()
             #sessão de testes caso o comando [#help 'comando'] seja acionado
-            elif busca == '#help add':
+            elif url == '#help add':
                 self.helpADD()
-            elif busca == '#help sair':
+            elif url == '#help sair':
                 self.helpEXIT()
-            elif busca == '#help voltar':
+            elif url == '#help voltar':
                 self.helpBACK()
                 #sessão de testes caso o comando [#add] seja acionado        
-            elif busca.startswith('#add'):
-                self.addURL(busca)         
+            elif url.startswith('#add'):
+                self.addURL(url) 
+            elif url == '#voltar':
+                self.back()       
             else:
-                self.__search(busca)
+                self.__search(url)
 
     '''
     Pesquisa em 'enderecos' pela url.
     '''
-    def __search(self, busca):
-        for domains in self.enderecos.keys():
-            if busca in domains:
-                self.home = busca #Atribui a url pesquisada ao Home caso a url esteja no banco de urls
-                self.addHistory()                    
-                print('Página Encontrada')
-                #print(f'IP: {self.enderecos.getVertice(busca)}')
+    def __search(self, url):
+        self.addHistory()
+        self.home = self.enderecos.getVertice(url)
+            
             
     '''
     Adiciona automaticamente ao histórico a última página acessada.
     '''
     def addHistory(self):
-        self.home = self.historico
+        if self.home == None:
+            return
+        else:
+            self.historico.inserir(self.home)
 
     '''
     Exibe o histórico de páginas acessadas.
     '''
     def printHistorico(self):
-        if self.historico == []:
+        if self.historico.top == None:
             print(f'Páginas Acessadas: []')
         else:
-            print(f'Páginas Acessadas: [ {self.historico} ]')
+            print(f'Páginas Acessadas: [ {self.historico.imprimir()} ]')
     
     '''
     Exibe a página atual do navegador.
     '''
     def printHome(self):
-        if self.home == None:
+        if self.home == 'None' or self.home is None:
             print(f'Página Atual: []')
         else:
             print(f'Página Atual: [ {self.home} ]')
@@ -112,10 +107,15 @@ class Browser:
     '''
     Adiciona uma nova URL a lista de urls disponíveis.
     '''    
-    def addURL(self, novo_endereco):
-        novo_endereco.split()
-        self.enderecos[novo_endereco[1]] = novo_endereco[2]
-        print("Nova URL adicionada com sucesso")
+    def addURL(self, url):
+        novo_endereco = url.split()
+        novo_endereco = novo_endereco[1].split('/')
+        if len(novo_endereco[1]) == 1:
+            vertice = self.enderecos.addVertice(novo_endereco[1])
+            self.enderecos.addAresta('/',vertice)
+        else:
+            #Adicionando uma nova Url com subpaginas
+            pass
 
     '''
     Método que printa as funcionalidades de cada comando ao usuário
@@ -142,12 +142,11 @@ class Browser:
     Remove a última página adicionada ao histórico, retornando-a ao campo 'Home'.
     '''    
     def back(self):
-        try:
-            self.home = self.historico.remover()
-        except IndexError:
-            pass
+        self.home = self.historico.remover()
 
-teste = Browser()
-print(f'{teste.enderecos.vertices}')
-print()
-print(f'{teste.enderecos.getArestas()}')
+#teste = Browser()
+#print(f'{teste.enderecos.vertices}')
+#print()
+#print(f'{teste.enderecos.arestas}')
+
+#teste.addURL('#add testando.com 1.1.1.1')
