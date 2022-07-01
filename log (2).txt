@@ -1,0 +1,6 @@
+01/07/22 - 17:00 - Cleydson
+• Browser = search alterado para interagir com o match, concluído
+• Grafo = match concluído
+• O erro do import copiar o ip/url pro outro campo foi resolvido
+• Mais condições de teste foram aplicadas a def buscar
+• Coisas pra fazer (pra fechar aquele 100 bonito e sensual) = fazer o histórico imprimir (através da def imprimir em pilha) toda a pilha, não só o topo da pilha, como é atualmente; imprimir as subpáginas da url encontrada (se tiver)
