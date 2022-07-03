@@ -36,4 +36,4 @@ class Pilha:
         while cursor is not None:
             topo = cursor.dado
             cursor = cursor.next
-            return(topo)
+            print(topo)

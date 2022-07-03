@@ -14,29 +14,34 @@ class Grafo:
         raiz = self.addVertice('/','0.0.0.0')
         return raiz
     
+    #Função que recebe a url e o ip de um endereço e cria um Vertice()
     def addVertice(self, url, ip):
         newVertice = Vertice(url,ip)
         self.vertices.append(newVertice)
         return newVertice
-        
+    
+    #Função que recebe dois vertices e cria uma Aresta()
     def addAresta(self, origem: 'Vertice', destino: 'Vertice'):
         caminho = Aresta(origem, destino)
         origem.addVizinhos(caminho)
         self.__arestas.append(caminho)
         return caminho
-        
+    
+    #Função que recebe o campo 'url' de um vertice e retorna o vertice    
     def getVertice(self, url):
         for vertice in self.__vertices:
             if vertice.url == url:
                 return vertice
         return None
 
+    #Função que recebe o campo 'url' de um vertice e retorna a url desse vertice
     def getVerticeURL(self, url):
         for vertice in self.__vertices:
             if vertice.url == url:
                 return vertice.url
         return None
     
+    #Função que recebe o campo 'url' de um vertice e retorna o ip desse vertice
     def getVerticeIP(self, url):
         for vertice in self.__vertices:
             if vertice.url == url:
@@ -50,6 +55,7 @@ class Grafo:
             s += (a.origem.url + '->' + a.destino.url) + '\n'
         return s
     
+    #Função que imprime todas as urls armazenadas
     def listVertices(self):
         s = ''
         for a in self.__vertices:
@@ -71,7 +77,7 @@ class Grafo:
             tamanhoURL = len(url) - 1
             while len(fila) != 0:
                 verticeTmp = fila.pop()
-                if indice == tamanhoURL:
+                if indice > tamanhoURL:
                     return controle
                 for aresta in verticeTmp.vizinhos:
                     w = aresta.destino
@@ -101,15 +107,3 @@ class Grafo:
     @arestas.setter
     def arestas(self, arestas):
         self.__arestas = arestas
-
-        
-'''teste = Grafo()
-v1 = teste.addVertice('teste')
-v2 = teste.addVertice('teste2')
-teste.addAresta(v1,v2)
-v3 = teste.addVertice('teste3')
-v4 = teste.addVertice('teste4')
-teste.addAresta(v1,v3)
-teste.addAresta(v3,v4)
-
-teste.bfs('teste5')'''
