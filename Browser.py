@@ -2,6 +2,14 @@ import csv
 from Historico import historico
 from pilha import Pilha
 from grafo import Grafo
+from vertice import Vertice
+
+'''
+Exception para receber e tratar os possíveis erros do programa.
+'''
+class BrowserException(Exception): #Mensagens de erro da class Browser
+    def __init__(self,msg):
+        self.msg = msg
 
 class Browser:
     def __init__(self):
@@ -43,7 +51,7 @@ class Browser:
     '''
     Recebe os dados a serem procurados no banco de urls.
     '''    
-    def buscar(self, url:str):
+    def buscar(self, url):
         if url == None:
             pass
         else:
@@ -61,6 +69,8 @@ class Browser:
             #fim da sessão de testes do comando #help       
             elif url.startswith('#add'):
                 self.addURL(url) 
+            elif url == '#list':
+                self.listgrafo()
             elif url == '#voltar':
                 self.back()
             else:
@@ -69,7 +79,7 @@ class Browser:
     '''
     Pesquisa em 'enderecos' pela url.
     '''
-    def __search(self, url:str):
+    def __search(self, url):
         newUrl = url.split('/')
         indice = len(newUrl) - 1
         if indice == 0:
@@ -81,7 +91,7 @@ class Browser:
             else:
                 print('Url não encontrada')
         elif indice >= 1:
-            if(self.enderecos.match(newUrl)):
+            if(self.enderecos.match(newUrl)) == True:
                 self.addHistory()
                 self.home = url
                 print(f'IP: {self.enderecos.getVerticeIP(newUrl[indice])}')
@@ -105,8 +115,11 @@ class Browser:
         if self.historico.top == None:
             print(f'Páginas Acessadas: []')
         else:
-            print(f'Páginas Acessadas: [http:// {self.historico.imprimir()} ]')
-    
+            print('Páginas Acessadas:')
+            print('---------------------------------')
+            self.historico.imprimir()
+            print('---------------------------------')
+
     '''
     Exibe a página atual do navegador.
     '''
@@ -120,7 +133,7 @@ class Browser:
     '''
     Adiciona uma nova URL a lista de urls disponíveis.
     '''    
-    def addURL(self, url:str):
+    def addURL(self, url):
         novo_endereco = url.split()
         subPagina = novo_endereco[1].split('/')
         if len(subPagina) == 1:
@@ -129,35 +142,38 @@ class Browser:
                 self.enderecos.addAresta(self.enderecos.getVertice('/'),vertice)
                 print('Nova URL adicionada com sucesso!')
             except IndexError:
-                print('Comando incompleto, digite "#help add" para verificar a sintaxe do comando!')
+                print('Comando incompleto. Verifique a sintaxe do comando "add" digitando "#help add".')
         elif len(subPagina) > 1:
             v = subPagina[0]
             if(self.enderecos.getVertice(v) is not None):
                 indice = 0
                 controle = len(subPagina) - 1
-                while indice != controle:
-                    try:
+                try:
+                    while indice < controle:
+
                         vertice = self.enderecos.addVertice(subPagina[indice + 1],self.enderecos.getVerticeIP(subPagina[0]))
                         origem = subPagina[indice]
                         self.enderecos.addAresta(self.enderecos.getVertice(origem),vertice)
                         indice += 1
-                    except IndexError:
-                        pass
+                except IndexError:
+                    print('Comando incompleto. Verifique a sintaxe do comando "add" digitando "#help add".')
                 print('Nova URL adicionada com sucesso!')
             else:
                 indice = 0
                 tamanhoURL = len(subPagina) - 1
-                while indice != tamanhoURL:
-                    try:
+                try:
+                    while indice <= tamanhoURL:
+                    
                         vertice = self.enderecos.addVertice(subPagina[indice],novo_endereco[2])
                         if indice == 0:
                             self.enderecos.addAresta(self.enderecos.getVertice('/'),vertice)
                         else:
-                            self.enderecos.addAresta(self.enderecos.getArestas(subPagina[indice]),vertice)
+                            self.enderecos.addAresta(self.enderecos.getVertice(subPagina[indice-1]),vertice)
                         indice += 1
-                    except IndexError:
-                        return print('Comando incompleto, digite "#help add" para verificar a sintaxe do comando!')
-                print('Nova URL adicionada com sucesso!')
+                    print('Nova URL adicionada com sucesso!')
+                except IndexError:
+                    print('Comando incompleto. Verifique a sintaxe do comando "add" digitando "#help add".')
+                
 
     '''
     Método que printa as funcionalidades de cada comando ao usuário
@@ -185,3 +201,9 @@ class Browser:
     '''
     def back(self):
         self.home = self.historico.remover()
+    def listgrafo(self):
+        print("-----------------------------------")
+        l1 = self.enderecos.getArestas()
+        print('As seguintes paginas estão cadastradas:')
+        print("-----------------------------------")
+        print(l1)
